@@ -54,6 +54,9 @@ export const updateActor = async (req, res) => {
 export const deleteActor = async (req, res) => {
   try {
     await Actor.findByIdAndDelete(req.params.id)
+    
+    await deleteActorFromMovies(req.params.id)
+    
     res.status(204).send()
   }
   catch (error) {
@@ -61,9 +64,16 @@ export const deleteActor = async (req, res) => {
   }
 }
 
+const deleteActorFromMovies = async (actorId) => {
+  await Movie.updateMany(
+    { "cast.actor": actorId },
+    { $pull: { cast: { actor: actorId } } }
+  )
+}
+
 export const getMovies = async (req, res) => {
   try {
-    const movies = await Movie.find()
+    const movies = await Movie.find().populate('cast.actor')
     res.status(200).json(movies)
   }
   catch (error) {
@@ -73,7 +83,7 @@ export const getMovies = async (req, res) => {
 
 export const getMovieById = async (req, res) => {
   try {
-    const movie = await Movie.findById(req.params.id)
+    const movie = await Movie.findById(req.params.id).populate('cast.actor')
 
     if (!movie) {
       res.status(404).send('Movie not found')
@@ -116,5 +126,4 @@ export const updateMovie = async (req, res) => {
     res.status(500).json({ error: error })
   }
 }
-
 
