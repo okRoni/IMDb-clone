@@ -17,8 +17,13 @@ const ActorSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  pictures : [{
-    type: String,
-    required: true
-  }]
+  pictures : [
+    {
+      type: String,
+      required: false
+    }
+  ]
 });
+
+const Actor = mongoose.model('Actor', ActorSchema);
+export default Actor;

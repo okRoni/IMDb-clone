@@ -8,11 +8,12 @@ const port = 3000
 app.use(express.json())
 app.use(router)
 
+console.log("Connecting to MongoDB..")
 mongoose.connect('\mongodb+srv://admin:OJcwecbtAbrODw06@testcluster1.blnpa.mongodb.net/?retryWrites=true&w=majority&appName=TestCluster1')
   .then(() => {
-    console.log('Connected to MongoDB');
+    console.log('Connection to MongoDB established');
     app.listen(port, () => {
-      console.log(`Backend running on port ${port}`)
+      console.log(`Backend running on http://localhost:${port}/`)
     });
   })
   .catch((err) => {
