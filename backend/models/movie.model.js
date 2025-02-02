@@ -1,20 +1,44 @@
 import mongoose from "mongoose";
 
 const MovieSchema = new mongoose.Schema({
-  name : {
+  title: {
     type: String,
     required: true
   },
-  genre : {
+  description: {
     type: String,
     required: true
   },
-  year : {
+  genre: {
+    type: String,
+    required: true
+  },
+  year: {
     type: Number,
     required: true
-  }
+  },
+  director: {
+    type: String,
+    required: true
+  },
+  rating: {
+    type: Number,
+    required: true
+  },
+  cast: [
+    {
+      actor: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Actor",  // Referencia a la colección "Actor"
+        required: true
+      },
+      role: {
+        type: String,
+        required: true
+      }
+    }
+  ]
 });
 
-const Movie = mongoose.model('Movie', MovieSchema);
-
+const Movie = mongoose.model("Movie", MovieSchema);
 export default Movie;
