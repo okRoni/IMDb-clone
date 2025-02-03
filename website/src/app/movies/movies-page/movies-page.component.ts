@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MovieCardComponent } from '../movie-card/movie-card.component';
-import { Movie } from '../movie';
+import { Movie } from '../../movie';
 import { FormControl } from '@angular/forms';
 import { Observable, startWith, map } from 'rxjs';
-import {MovieService} from '../services/movie-service.service';
+import {MovieService} from '../../services/movie-service.service';
 // Angular Material
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
