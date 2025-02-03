@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { Movie } from '../movie';
+import { CommonModule } from '@angular/common';
+import { Movie } from '../../movie';
 
 @Component({
   selector: 'app-movie-card',
   imports: [],
   template: `
     <section>
-      hola
       <h3>{{ movie.title }}</h3>
       <p>{{ movie.description }}</p>
       <p>Genre: {{ movie.genre }}</p>
