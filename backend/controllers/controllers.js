@@ -1,8 +1,45 @@
 import Actor from '../models/actor.model.js'
 import Movie from '../models/movie.model.js'
+import User from '../models/user.model.js'
 
 export const getHello = async (req, res) => {
   res.send('Hello World!')
+}
+
+export const registerUser = async (req, res) => {
+  try {
+    if (await User.exists({ user: req.body.user })) {
+      res.status(400).send('User already exists')
+      return
+    }
+
+    const user = await User.create(req.body)
+    res.status(201).json(user)
+  }
+  catch (error) {
+    res.status(500).json({ error : error.message })
+  }
+}
+
+export const loginUser = async (req, res) => {
+  try {
+    const user = await User.findOne({ user: req.body.user })
+
+    if (!user) {
+      res.status(404).send('User not found')
+      return
+    }
+
+    if (user.password !== req.body.password) {
+      res.status(401).send('Invalid password')
+      return
+    }
+
+    res.status(200).json(user)
+  }
+  catch (error) {
+    res.status(500).json({ error : error.message })
+  }
 }
 
 export const createActor = async (req, res) => {

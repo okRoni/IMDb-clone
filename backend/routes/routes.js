@@ -1,9 +1,13 @@
 import { Router } from "express";
-import { getHello, createActor, getActors, getActorById, deleteActor, updateActor, createMovie, getMovies, getMovieById, updateMovie, deleteMovie, removeCastFromMovie, addCastToMovie } from "../controllers/controllers.js";
+import { getHello, createActor, getActors, getActorById, deleteActor, updateActor, createMovie, getMovies, getMovieById, updateMovie, deleteMovie, removeCastFromMovie, addCastToMovie, registerUser, loginUser } from "../controllers/controllers.js";
 
 const router = Router();
 
 router.get('/', getHello);
+
+router.post('/register', registerUser);
+
+router.post('/login', loginUser);
 
 router.post('/actors', createActor);
 
