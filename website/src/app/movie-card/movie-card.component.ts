@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Movie } from '../movie';
 
 @Component({
@@ -6,7 +7,6 @@ import { Movie } from '../movie';
   imports: [],
   template: `
     <section>
-      hola
       <h3>{{ movie.title }}</h3>
       <p>{{ movie.description }}</p>
       <p>Genre: {{ movie.genre }}</p>
