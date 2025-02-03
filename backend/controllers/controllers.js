@@ -11,7 +11,7 @@ export const createActor = async (req, res) => {
     res.status(201).json(actor)
   }
   catch (error) {
-    res.status(500).json({ error: error })
+    res.status(500).json({ error : error.message })
   }
 }
 
@@ -21,7 +21,7 @@ export const getActors = async (req, res) => {
     res.status(200).json(actors)
   }
   catch (error) {
-    res.status(500).json({ error: error })
+    res.status(500).json({ error : error.message })
   }
 }
 
@@ -37,7 +37,7 @@ export const getActorById = async (req, res) => {
     res.status(200).json(actor)
   }
   catch (error) {
-    res.status(500).json({ error: error })
+    res.status(500).json({ error : error.message })
   }
 }
 
@@ -47,7 +47,7 @@ export const updateActor = async (req, res) => {
     res.status(200).json(actor)
   }
   catch (error) {
-    res.status(500).json({ error: error })
+    res.status(500).json({ error : error.message })
   }
 }
 
@@ -60,7 +60,7 @@ export const deleteActor = async (req, res) => {
     res.status(204).send()
   }
   catch (error) {
-    res.status(500).json({ error: error })
+    res.status(500).json({ error : error.message })
   }
 }
 
@@ -71,13 +71,65 @@ const deleteActorFromMovies = async (actorId) => {
   )
 }
 
+export const addCastToMovie = async (req, res) => {
+  try {
+    const movie = await Movie.findById(req.params.id)
+
+    if (!movie) {
+      res.status(404).send('Movie not found')
+      return
+    }
+
+    const actor = await Actor.findById(req.body.actor)
+
+    if (!actor) {
+      res.status(404).send('Actor not found')
+      return
+    }
+
+    movie.cast.push({ actor: actor._id, role: req.body.role })
+    await movie.save()
+
+    res.status(200).json(movie)
+  }
+  catch (error) {
+    res.status(500).json({ error : error.message })
+  }
+}
+
+export const removeCastFromMovie = async (req, res) => {
+  try {
+    const movie = await Movie.findById(req.params.id)
+
+    if (!movie) {
+      res.status(404).send('Movie not found')
+      return
+    }
+
+    const actor = await Actor.findById(req.body.actor)
+
+    if (!actor) {
+      res.status(404).send('Actor not found')
+      return
+    }
+    
+    movie.cast = movie.cast.filter(cast => cast.actor.toString() !== actor._id.toString())
+    await movie.save()
+
+    res.status(200).json(movie)
+  }
+  catch (error) {
+    res.status(500).json({ error : error.message })
+  }
+}
+
 export const getMovies = async (req, res) => {
   try {
     const movies = await Movie.find().populate('cast.actor')
     res.status(200).json(movies)
   }
   catch (error) {
-    res.status(500).json({ error: error })
+    res.status(500).json({ error : error.message })
   }
 }
 
@@ -93,17 +145,17 @@ export const getMovieById = async (req, res) => {
     res.status(200).json(movie)
   }
   catch (error) {
-    res.status(500).json({ error: error })
+    res.status(500).json({ error : error.message })
   }
 }
 
 export const createMovie = async (req, res) => {
   try {
-    const movie = await Movie.create(req.body)
+    const movie = await (await Movie.create(req.body)).populate('cast.actor')
     res.status(201).json(movie)
   }
   catch (error) {
-    res.status(500).json({ error: error })
+    res.status(500).json({ error : error.message })
   }
 }
 
@@ -113,17 +165,17 @@ export const deleteMovie = async (req, res) => {
     res.status(204).send()
   }
   catch (error) {
-    res.status(500).json({ error: error })
+    res.status(500).json({ error : error.message })
   }
 }
 
 export const updateMovie = async (req, res) => {
   try {
-    const movie = await Movie.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    const movie = await Movie.findByIdAndUpdate(req.params.id, req.body, { new: true }).populate('cast.actor')
     res.status(200).json(movie)
   }
   catch (error) {
-    res.status(500).json({ error: error })
+    res.status(500).json({ error : error.message })
   }
 }
 

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getHello, createActor, getActors, getActorById, deleteActor, updateActor, createMovie, getMovies, getMovieById, updateMovie, deleteMovie } from "../controllers/controllers.js";
+import { getHello, createActor, getActors, getActorById, deleteActor, updateActor, createMovie, getMovies, getMovieById, updateMovie, deleteMovie, removeCastFromMovie, addCastToMovie } from "../controllers/controllers.js";
 
 const router = Router();
 
@@ -24,5 +24,9 @@ router.get('/movies/:id', getMovieById);
 router.put('/movies/:id', updateMovie);
 
 router.delete('/movies/:id', deleteMovie);
+
+router.delete('/movies/:id/cast', removeCastFromMovie);
+
+router.post('/movies/:id/cast', addCastToMovie);
 
 export default router;
