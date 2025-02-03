@@ -37,7 +37,12 @@ const MovieSchema = new mongoose.Schema({
         required: true
       }
     }
-  ]
+  ],
+  images: [
+    {
+      type: String
+    }
+  ],
 });
 
 const Movie = mongoose.model("Movie", MovieSchema);
